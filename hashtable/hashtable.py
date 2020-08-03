@@ -23,9 +23,15 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
 
-        self.capacity = capacity
+        # If the capacity is less that the minimum capacity limit
+        if capacity > MIN_CAPACITY:
+            # Set the capacity to the minimum
+            self.capacity = MIN_CAPACITY
+        # Otherwise, set the intended capacity
+        else:
+            self.capacity = capacity
         # Creates an empty hash table at the minimum capacity
-        self.hash_data = [None] * MIN_CAPACITY
+        self.hash_data = [None] * self.capacity
 
 
     def get_num_slots(self):
@@ -40,7 +46,7 @@ class HashTable:
         """
         # Your code here
 
-        return len(self.capacity)
+        return len(self.hash_data)
 
 
     def get_load_factor(self):
@@ -93,6 +99,7 @@ class HashTable:
         #return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
+
     def put(self, key, value):
         """
         Store the value with the given key.
@@ -102,6 +109,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        
+        # Set the index of key to a variable
+        index = self.hash_index(key)
+
+        # Store the value in the hash table as a new entry
+        self.hash_data[index] = HashTableEntry(key, value)
 
 
     def delete(self, key):
@@ -113,6 +126,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        
+        # Set the index of key to a variable
+        index = self.hash_index(key)
+
+        # Set the value at this index to None
+        self.hash_data[index] = None
 
 
     def get(self, key):
@@ -128,7 +147,12 @@ class HashTable:
         # Set the index of key to a variable
         index = self.hash_index(key)
 
-        return self.hash_data[index]
+        # If the value at this index is None, value is None
+        if self.hash_data[index] is None:
+            return None
+        # Otherwise, return the value at the input index
+        else:
+            return self.hash_data[index].value
 
 
     def resize(self, new_capacity):
