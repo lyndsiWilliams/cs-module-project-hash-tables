@@ -23,6 +23,10 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
 
+        self.capacity = capacity
+        # Creates an empty hash table at the minimum capacity
+        self.hash_data = [None] * MIN_CAPACITY
+
 
     def get_num_slots(self):
         """
@@ -35,6 +39,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+
+        return len(self.capacity)
 
 
     def get_load_factor(self):
@@ -63,6 +69,20 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
+
+        # Set an original hash value (number of times hashed)
+        # 5381 is the traditionally-used value
+        hash = 5381
+
+        # Loop through the key
+        for x in key:
+            # Hash each value
+                # hash << 5 = hash value's bits shifted to the left 5 places
+                # ord(x) = The integer value representing x's Unicode character
+            hash = ((hash << 5) + hash) + ord(x)
+
+        # Return the new hash value at 32 bits
+        return hash & 0xFFFFFFFFFFFFFFFF
 
 
     def hash_index(self, key):
@@ -104,6 +124,11 @@ class HashTable:
         Implement this.
         """
         # Your code here
+
+        # Set the index of key to a variable
+        index = self.hash_index(key)
+
+        return self.hash_data[index]
 
 
     def resize(self, new_capacity):
