@@ -23,6 +23,16 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
 
+        # If the capacity is less that the minimum capacity limit
+        if capacity > MIN_CAPACITY:
+            # Set the capacity to the minimum
+            self.capacity = MIN_CAPACITY
+        # Otherwise, set the intended capacity
+        else:
+            self.capacity = capacity
+        # Creates an empty hash table at the minimum capacity
+        self.hash_data = [None] * self.capacity
+
 
     def get_num_slots(self):
         """
@@ -35,6 +45,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+
+        return len(self.hash_data)
 
 
     def get_load_factor(self):
@@ -64,6 +76,20 @@ class HashTable:
         """
         # Your code here
 
+        # Set an original hash value (number of times hashed)
+        # 5381 is the traditionally-used value
+        hash = 5381
+
+        # Loop through the key
+        for x in key:
+            # Hash each value
+                # hash << 5 = hash value's bits shifted to the left 5 places
+                # ord(x) = The integer value representing x's Unicode character
+            hash = ((hash << 5) + hash) + ord(x)
+
+        # Return the new hash value at 32 bits
+        return hash & 0xFFFFFFFFFFFFFFFF
+
 
     def hash_index(self, key):
         """
@@ -72,6 +98,7 @@ class HashTable:
         """
         #return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
+
 
     def put(self, key, value):
         """
@@ -82,6 +109,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        
+        # Set the index of key to a variable
+        index = self.hash_index(key)
+
+        # Store the value in the hash table as a new entry
+        self.hash_data[index] = HashTableEntry(key, value)
 
 
     def delete(self, key):
@@ -93,6 +126,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        
+        # Set the index of key to a variable
+        index = self.hash_index(key)
+
+        # Set the value at this index to None
+        self.hash_data[index] = None
 
 
     def get(self, key):
@@ -104,6 +143,16 @@ class HashTable:
         Implement this.
         """
         # Your code here
+
+        # Set the index of key to a variable
+        index = self.hash_index(key)
+
+        # If the value at this index is None, value is None
+        if self.hash_data[index] is None:
+            return None
+        # Otherwise, return the value at the input index
+        else:
+            return self.hash_data[index].value
 
 
     def resize(self, new_capacity):
