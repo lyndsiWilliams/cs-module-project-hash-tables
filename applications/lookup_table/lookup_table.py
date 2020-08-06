@@ -1,13 +1,17 @@
 # Your code here
+import math
+import random
 
 
-def slowfun_too_slow(x, y):
-    v = math.pow(x, y)
-    v = math.factorial(v)
-    v //= (x + y)
-    v %= 982451653
+# def slowfun_too_slow(x, y):
+#     v = math.pow(x, y)
+#     v = math.factorial(v)
+#     v //= (x + y)
+#     v %= 982451653
 
-    return v
+#     return v
+
+cache = {}
 
 def slowfun(x, y):
     """
@@ -15,6 +19,23 @@ def slowfun(x, y):
     output, but completes quickly instead of taking ages to run.
     """
     # Your code here
+
+    # Check if the calculated value exists in the cache
+    if cache.get((x, y)):
+        # If so, return the stored value
+        return cache[(x, y)]
+    # Otherwise, the value needs to be calculated
+    else:
+        v = math.pow(x, y)
+        v = math.factorial(v)
+        v //= (x + y)
+        v %= 982451653
+
+        # Once the value is calculated, store it in the cache
+        cache[(x, y)] = v
+
+        return v
+
 
 
 
