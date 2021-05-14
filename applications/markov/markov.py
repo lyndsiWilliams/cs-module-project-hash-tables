@@ -35,8 +35,8 @@ for i in range(len(split_words)):
             # Add this iteration to the dictionary for the very first time
             follow_words[split_words[i]] = [split_words[i + 1]]
     # Otherwise, the list is empty
-    # else:
-    #     follow_words[split_words[i]] = []
+    else:
+        follow_words[split_words[i]] = []
 
 # A function that will determine and choose a random start word
 def start_word():
