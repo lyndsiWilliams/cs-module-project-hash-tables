@@ -30,10 +30,11 @@ def word_count(s):
         if words[i] not in cache:
             # Create an empty space in the cache for it
             # This starts the word count for that word
-            cache[words[i]] = 0
+            cache[words[i]] = 1
 
         # Otherwise, it exists in the cache so increase the word count by 1
-        cache[words[i]] += 1
+        else:
+            cache[words[i]] += 1
 
     # Return the cache, which will hold the current word count
     return cache
